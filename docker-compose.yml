@@ -8,7 +8,29 @@ services:
     server:
         build:
             dockerfile: Dockerfile.dev
-            context: './server/'
+            context: './server'
+        volumes:
+            - /app/node_modules
+            - ./server:/app
+        environment: 
+            - REDIS_HOST=redis
+            - REDIS_PORT=6379
+            - PGUSER=postgres
+            - PGHOST=postgres
+            - PGDATA=postgres
+            - PGPASS=postgres_password
+            - PGPORT=5432
+    client:
+        build:
+            dockerfile: Dockerfile.dev
+            context: './client'
+        volumes:
+            - /app/node_modules
+            - ./server:/app
+    worker:
+        build:
+            dockerfile: Dockerfile.dev
+            context: './worker'
         volumes:
             - /app/node_modules
             - ./server:/app
